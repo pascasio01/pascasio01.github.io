@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pascasio E. Reynoso — Creador de AUTOGENIO</title>
+<meta name="description" content="Constructor de sistemas con IA bajo control humano. AUTOGENIO: misiones con evidencia verificable. Sin demos. Sin simulaciones.">
+<style>
+  :root {
+    --abyss: #050810;
+    --panel: #0c1220;
+    --panel2: #111a2e;
+    --hairline: rgba(148, 163, 184, 0.14);
+    --text: #e2e8f0;
+    --muted: #8b9bb4;
+    --sys: #22d3ee;
+    --mint: #34d399;
+    --genio: #fbbf24;
+    --iris: #a78bfa;
+    --crit: #f87171;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--abyss);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace; }
+
+  .bg-grid {
+    position: fixed; inset: 0; z-index: -2;
+    background-image:
+      linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .bg-glow {
+    position: fixed; z-index: -1; border-radius: 50%; filter: blur(120px); opacity: 0.16;
+    pointer-events: none;
+  }
+  .glow-1 { width: 480px; height: 480px; background: var(--sys); top: -160px; right: -120px; }
+  .glow-2 { width: 380px; height: 380px; background: var(--iris); bottom: -140px; left: -100px; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 96px 0 64px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sys); margin-bottom: 20px;
+  }
+  .led {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--mint); box-shadow: 0 0 8px var(--mint);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  h1 {
+    font-size: clamp(34px, 6vw, 54px); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px;
+  }
+  h1 .accent {
+    background: linear-gradient(90deg, var(--sys), var(--iris));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { color: var(--muted); font-size: 17px; max-width: 560px; margin-bottom: 28px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--hairline); background: rgba(12, 18, 32, 0.7);
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: border-color .2s, color .2s;
+  }
+  .pill:hover { border-color: rgba(34,211,238,.5); color: var(--sys); }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .law {
+    margin: 8px 0 72px; padding: 22px 26px;
+    border-left: 3px solid var(--genio);
+    background: rgba(12, 18, 32, 0.6); border-radius: 0 16px 16px 0;
+  }
+  .law .tag {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--genio); margin-bottom: 8px;
+  }
+  .law p { color: var(--muted); font-size: 15px; }
+  .law b { color: var(--text); font-weight: 600; }
+
+  .sec-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sec-label::after { content: ""; flex: 1; height: 1px; background: var(--hairline); }
+
+  .projects { display: grid; gap: 16px; margin-bottom: 80px; }
+  .card {
+    position: relative; display: block; text-decoration: none; color: inherit;
+    background: rgba(12, 18, 32, 0.72); border: 1px solid var(--hairline);
+    border-radius: 18px; padding: 24px 26px 24px 30px;
+    backdrop-filter: blur(8px);
+    transition: transform .18s ease, border-color .18s ease;
+    overflow: hidden;
+  }
+  .card:hover { transform: translateY(-2px); border-color: rgba(34,211,238,.35); }
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, var(--sys));
+  }
+  .card .head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .card h3 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
+  .status {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 999px; border: 1px solid var(--hairline);
+  }
+  .st-active { color: var(--mint); border-color: rgba(52,211,153,.35); }
+  .st-private { color: var(--genio); border-color: rgba(251,191,36,.3); }
+  .st-early { color: var(--iris); border-color: rgba(167,139,250,.35); }
+  .card p { color: var(--muted); font-size: 14.5px; max-width: 640px; }
+  .card .stack {
+    margin-top: 12px; font-size: 11px; letter-spacing: 0.06em;
+    color: rgba(139, 155, 180, 0.75);
+  }
+
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 40px 0 56px; color: var(--muted); font-size: 14px;
+  }
+  footer .links { display: flex; flex-wrap: wrap; gap: 22px; margin-bottom: 14px; }
+  footer a { color: var(--sys); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .fine { font-size: 12px; color: rgba(139,155,180,.6); }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker mono"><span class="led"></span>SISTEMAS CON IA · CONTROL HUMANO</div>
+    <h1>Pascasio E. Reynoso<br><span class="accent">Construyo software que dice la verdad.</span></h1>
+    <p class="sub">Creador de <strong>AUTOGENIO</strong> — un sistema operativo de inteligencia autónoma donde cada cifra sale de una medición o de la base de datos. Nunca de una maqueta.</p>
+    <div class="pills mono">
+      <a class="pill" href="https://github.com/pascasio01"><span class="dot" style="background:var(--sys)"></span>GitHub</a>
+      <a class="pill" href="https://tudoctor247.com"><span class="dot" style="background:var(--mint)"></span>TuDoctor24/7</a>
+      <a class="pill" href="mailto:pascasio01@gmail.com"><span class="dot" style="background:var(--iris)"></span>Contacto</a>
+    </div>
+  </header>
+
+  <div class="law">
+    <div class="tag mono">Regla 28 — cómo trabajo</div>
+    <p>Cada capacidad declarada está <b>implementada y verificada</b>, o etiquetada honestamente con su estado real. Si el sistema no tiene GPU, dice que no tiene GPU. Si la red no se mide, la red no aparece. <b>Sin demos. Sin simulaciones.</b></p>
+  </div>
+
+  <div class="sec-label mono">PROYECTOS</div>
+
+  <div class="projects">
+
+    <a class="card" style="--accent:var(--sys)" href="https://github.com/pascasio01/autogenio">
+      <div class="head">
+        <h3>AUTOGENIO</h3>
+        <span class="status st-private mono">Privado · v0.12.0</span>
+        <span class="status st-active mono">Desarrollo activo</span>
+      </div>
+      <p>Sovereign Autonomous Intelligence OS. Misiones multiagente con puerta de evidencia, Trust Kernel SHA-256, Approval Engine, Agent Factory y Model Router con modo LOCAL ONLY real. 78/78 pruebas, TypeScript estricto.</p>
+      <div class="stack mono">REACT 19 · TYPESCRIPT · TRPC 11 · HONO · DRIZZLE · MYSQL</div>
+    </a>
+
+    <a class="card" style="--accent:var(--mint)" href="https://tudoctor247.com">
+      <div class="head">
+        <h3>TuDoctor24/7</h3>
+        <span class="status st-active mono">En línea</span>
+      </div>
+      <p>Plataforma de salud con inteligencia artificial.</p>
+      <div class="stack mono">TUDOCTOR247.COM</div>
+    </a>
+
+    <a class="card" style="--accent:var(--iris)" href="https://github.com/pascasio01/musdo-mvp">
+      <div class="head">
+        <h3>MUSDO</h3>
+        <span class="status st-early mono">MVP temprano · MIT</span>
+      </div>
+      <p>Plataforma de música humana para compositores: vault de demos y letras, Song Passport, insignia Human Verified y marketplace de licencias.</p>
+      <div class="stack mono">TYPESCRIPT · SUPABASE · MOBILE</div>
+    </a>
+
+    <a class="card" style="--accent:var(--genio)" href="https://github.com/pascasio01/donefixer">
+      <div class="head">
+        <h3>DONEFIXER</h3>
+        <span class="status st-early mono">Corpus PRE-GO</span>
+      </div>
+      <p>Corpus documental y de gobernanza: la documentación como fuente de verdad antes de escribir código de producción.</p>
+      <div class="stack mono">GOVERNANZA · DOCUMENTACIÓN</div>
+    </a>
+
+    <a class="card" style="--accent:var(--sys)" href="https://github.com/pascasio01/Allviewser">
+      <div class="head">
+        <h3>Allviewser</h3>
+        <span class="status st-early mono">v0.1</span>
+      </div>
+      <p>Compañero digital con espacio funcional, voz y comercio inmersivo.</p>
+      <div class="stack mono">NEXT.JS · TYPESCRIPT</div>
+    </a>
+
+    <a class="card" style="--accent:var(--iris)" href="https://github.com/pascasio01/Nexora">
+      <div class="head">
+        <h3>Nexora</h3>
+        <span class="status st-early mono">Full-stack</span>
+      </div>
+      <p>NEXORA LITE — asistente full-stack con FastAPI y React.</p>
+      <div class="stack mono">FASTAPI · REACT</div>
+    </a>
+
+  </div>
+
+  <footer>
+    <div class="links mono">
+      <a href="https://github.com/pascasio01">github.com/pascasio01</a>
+      <a href="mailto:pascasio01@gmail.com">pascasio01@gmail.com</a>
+    </div>
+    <div class="fine">Sin demos. Sin simulaciones. — Regla 28</div>
+  </footer>
+
+</div>
+</body>
+</html>
